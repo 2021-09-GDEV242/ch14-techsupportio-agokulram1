@@ -14,8 +14,8 @@ import java.util.*;
  * in the HashMap, the corresponding response is returned. If none of the input
  * words is recognized, one of the default responses is randomly chosen.
  * 
- * @author David J. Barnes and Michael Kölling.
- * @version 2016.02.29
+ * @author Gokul Ram
+ * @version 2021.12.06
  */
 public class Responder
 {
@@ -67,6 +67,33 @@ public class Responder
      */
     private void fillResponseMap()
     {
+     
+        try {
+        File myObj = new File("supportresponses.txt");
+        Scanner reader = new Scanner(myObj);
+        String keyLine="", valueLine="", blankLine="";
+        while (reader.hasNextLine()) {
+            // Read Key
+            keyLine = reader.nextLine().trim().toLowerCase();
+            String[] keyArray = keyLine.split(",");
+            // Read Value
+            if (reader.hasNextLine())
+               valueLine = reader.nextLine().trim().toLowerCase();
+            // Store the Key Value into Hashmap
+            for(String key : keyArray) {
+                responseMap.put(key, valueLine);
+             }
+            // Read Blank Line
+            if (reader.hasNextLine())
+              blankLine = reader.nextLine().trim().toLowerCase();
+        }
+        
+    } catch (FileNotFoundException e) {
+      System.out.println("An error occurred.");
+      e.printStackTrace();
+    }
+        
+        /*
         responseMap.put("crash", 
                         "Well, it never crashes on our system. It must have something\n" +
                         "to do with your system. Tell me more about your configuration.");
@@ -113,6 +140,7 @@ public class Responder
                         "Ahhh, BlueJ, yes. We tried to buy out those guys long ago, but\n" +
                         "they simply won't sell... Stubborn people they are. Nothing we can\n" +
                         "do about it, I'm afraid.");
+                        */
     }
 
     /**
